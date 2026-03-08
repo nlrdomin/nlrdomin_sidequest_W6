@@ -8,9 +8,9 @@ let sndBonus   = null;  // splash screen jingle
 let soundReady = false;
 
 function preloadSounds(p) {
-  sndMusic  = p.loadSound('assets/mindmist-fishing-on-the-lake-310740.mp3');
-  sndWhoosh = p.loadSound('assets/spinopel-fishing-rod-whoosh-411640.mp3');
-  sndBonus  = p.loadSound('assets/universfield-game-bonus-144751.mp3');
+  sndMusic  = p.loadSound('downloads/mindmist-fishing-on-the-lake-310740.mp3');
+  sndWhoosh = p.loadSound('downloads/spinopel-fishing-rod-whoosh-411640.mp3');
+  sndBonus  = p.loadSound('downloads/universfield-game-bonus-144751.mp3');
 }
 
 // Call once after the splash "Play" click — browsers require a user gesture
