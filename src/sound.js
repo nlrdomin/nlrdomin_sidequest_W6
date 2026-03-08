@@ -1,73 +1,80 @@
 // ─── Sound ────────────────────────────────────────────────────────────────────
 // Uses the plain Web Audio API — no p5.sound required.
-// Audio context + buffers are created lazily on the first user gesture
-// (the Play button click), which is the only way browsers allow audio to start.
 
 let audioCtx    = null;
 let bufMusic    = null;
 let bufWhoosh   = null;
 let bufBonus    = null;
-let musicSource = null;   // keep ref so we can stop/restart the loop
+let musicSource = null;
 let soundReady  = false;
 
 // ── Fetch + decode a single file into an AudioBuffer ─────────────────────────
 async function loadBuffer(url) {
-  const res  = await fetch(url);
+  console.log(`[Sound] Fetching: ${url}`);
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
   const data = await res.arrayBuffer();
-  return audioCtx.decodeAudioData(data);
+  console.log(`[Sound] Decoding: ${url} (${data.byteLength} bytes)`);
+  const buf = await audioCtx.decodeAudioData(data);
+  console.log(`[Sound] Ready: ${url} — duration ${buf.duration.toFixed(1)}s`);
+  return buf;
 }
 
-// ── Kick off all three loads in parallel ─────────────────────────────────────
-// Called from sketch.js preload (fire-and-forget; buffers will be ready
-// well before the player clicks Play).
+// ── Load all three files ──────────────────────────────────────────────────────
 function preloadSounds() {
-  // Create the context immediately — it starts in 'suspended' state in most
-  // browsers until resumed inside a user-gesture handler, which is fine.
+  console.log('[Sound] Creating AudioContext...');
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  console.log(`[Sound] AudioContext state: ${audioCtx.state}`);
 
   Promise.all([
     loadBuffer('assets/sfx/mindmist-fishing-on-the-lake-310740.mp3'),
     loadBuffer('assets/sfx/spinopel-fishing-rod-whoosh-411640.mp3'),
     loadBuffer('assets/sfx/universfield-game-bonus-144751.mp3'),
   ]).then(([music, whoosh, bonus]) => {
-    bufMusic   = music;
-    bufWhoosh  = whoosh;
-    bufBonus   = bonus;
-  }).catch(err => console.warn('Sound load error:', err));
+    bufMusic  = music;
+    bufWhoosh = whoosh;
+    bufBonus  = bonus;
+    console.log('[Sound] All buffers loaded ✓');
+  }).catch(err => {
+    console.error('[Sound] Load failed:', err);
+  });
 }
 
-// ── Helper: play a buffer once at a given volume ──────────────────────────────
+// ── Play a buffer ─────────────────────────────────────────────────────────────
 function playBuffer(buffer, volume = 1.0, loop = false) {
-  if (!audioCtx || !buffer) return null;
-  const gain   = audioCtx.createGain();
+  if (!audioCtx) { console.warn('[Sound] playBuffer: no audioCtx'); return null; }
+  if (!buffer)   { console.warn('[Sound] playBuffer: buffer is null'); return null; }
+  console.log(`[Sound] Playing buffer — ctx state: ${audioCtx.state}, loop: ${loop}, vol: ${volume}`);
+
+  const gain = audioCtx.createGain();
   gain.gain.value = volume;
   gain.connect(audioCtx.destination);
 
-  const src  = audioCtx.createBufferSource();
+  const src = audioCtx.createBufferSource();
   src.buffer = buffer;
   src.loop   = loop;
   src.connect(gain);
   src.start(0);
-  return src;   // caller can call .stop() on this
+  return src;
 }
 
-// ── Called once when the player clicks Play ───────────────────────────────────
-// Browsers require audioCtx.resume() inside a user-gesture handler.
+// ── Called on Play button click ───────────────────────────────────────────────
 function initSound() {
   if (soundReady) return;
   soundReady = true;
+  console.log(`[Sound] initSound called — ctx state before resume: ${audioCtx.state}`);
+  console.log(`[Sound] Buffers ready? music=${!!bufMusic} whoosh=${!!bufWhoosh} bonus=${!!bufBonus}`);
 
   audioCtx.resume().then(() => {
-    // Looping background music
+    console.log(`[Sound] AudioContext resumed — state: ${audioCtx.state}`);
     musicSource = playBuffer(bufMusic, 0.35, true);
-    // One-shot welcome jingle
     playBuffer(bufBonus, 0.7);
-  });
+  }).catch(err => console.error('[Sound] resume failed:', err));
 }
 
-// ── Cast whoosh — stops any previous instance so overlapping clicks are clean ─
+// ── Cast whoosh ───────────────────────────────────────────────────────────────
 function playCast() {
-  if (!soundReady) return;
+  if (!soundReady) { console.warn('[Sound] playCast: soundReady=false'); return; }
   playBuffer(bufWhoosh, 0.6);
 }
 
