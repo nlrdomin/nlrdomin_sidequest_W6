@@ -1,61 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ocean Game — Dive Deep</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎣 Fishing Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-container"></div>
+  <div id="ui-hint">Click to cast &bull; Click again to reel in &bull; Don't let the line snap!</div>
 
-    <style>
-      body {
-        margin: 0;
-        overflow: hidden;
-        background: #050f1a;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-      canvas {
-        display: block;
-        image-rendering: pixelated;
-        image-rendering: crisp-edges;
-      }
-    </style>
-  </head>
-
-  <body>
-    <!--
-      ============================================================
-      ASSET CREDITS
-      ============================================================
-
-      Characters & Collectibles:
-        - Fish sprites: Kenney Fish Pack (kenney.nl) — CC0 Public Domain
-
-      Tiles:
-        - Ocean terrain: Kenney Fish Pack (kenney.nl) — CC0 Public Domain
-
-      Audio:
-        - Add your own SFX to assets/sfx/ subfolders (see README.txt in each)
-
-      Libraries:
-        - p5.js: https://p5js.org/
-        - p5play v3: https://p5play.org/
-        - Planck.js: https://github.com/shakiba/planck.js
-
-      ============================================================
-    -->
-
-    <!--
-      IMPORTANT: All libraries are loaded from the local /libraries/ folder.
-      This ensures the game works on GitHub Pages without any CDN dependency.
-    -->
-    <script src="libraries/planck.min.js"></script>
-    <script src="libraries/p5.js"></script>
-    <script src="libraries/p5.sound.min.js"></script>
-    <script src="libraries/p5play.min.js"></script>
-
-    <!-- Entry point (ES module) -->
-    <script type="module" src="./main.js"></script>
-  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <script src="src/constants.js"></script>
+  <script src="src/sprites.js"></script>
+  <script src="src/fish.js"></script>
+  <script src="src/decorations.js"></script>
+  <script src="src/effects.js"></script>
+  <script src="src/ui.js"></script>
+  <script src="src/sketch.js"></script>
+</body>
 </html>
