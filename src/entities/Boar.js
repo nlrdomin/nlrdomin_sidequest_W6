@@ -36,8 +36,8 @@ export class BoarController {
 
     // tuning defaults (match monolith)
     const b = this.tuning.boar || {};
-    this.W = b.w ?? 36;
-    this.H = b.h ?? 24;
+    this.W = b.w ?? 18;
+    this.H = b.h ?? 12;
     this.SPEED = b.speed ?? 0.6;
     this.HP = b.hp ?? 3;
 
@@ -48,10 +48,10 @@ export class BoarController {
 
     this.TURN_COOLDOWN = b.turnCooldown ?? 12;
 
-    this.PROBE_FORWARD = b.probeForward ?? 20;
-    this.PROBE_FRONT_Y = b.probeFrontY ?? 20;
+    this.PROBE_FORWARD = b.probeForward ?? 10;
+    this.PROBE_FRONT_Y = b.probeFrontY ?? 10;
     this.PROBE_HEAD_Y = b.probeHeadY ?? 0;
-    this.PROBE_SIZE = b.probeSize ?? 8;
+    this.PROBE_SIZE = b.probeSize ?? 4;
   }
 
   /**

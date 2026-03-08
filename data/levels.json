@@ -8,8 +8,8 @@
       "tiles": {
         "tileW": 24,
         "tileH": 24,
-        "frameW": 64,
-        "frameH": 64
+        "frameW": 32,
+        "frameH": 32
       },
 
       "tilemap": [
