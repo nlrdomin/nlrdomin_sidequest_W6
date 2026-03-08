@@ -22,8 +22,8 @@ function initSplash(p) {
   }
 }
 
-// Returns true if the play button was just clicked
-function drawSplash(p, sheet, mx, my, clicked) {
+// Returns nothing — click handling is done in mousePressed in sketch.js
+function drawSplash(p, sheet, mx, my) {
   splashWave   += 0.025;
   splashBobble += 0.04;
 
@@ -213,6 +213,5 @@ function drawSplash(p, sheet, mx, my, clicked) {
   p.fill(255);
   p.text('▶  PLAY', W / 2, btnY + 27);
 
-  // Return true if clicked inside button
-  return clicked && hovered;
+  // Return nothing — click is handled in mousePressed
 }

@@ -20,13 +20,16 @@ async function loadBuffer(url) {
   return buf;
 }
 
+// ── Holds the promise so initSound can await it if buffers aren't ready yet ───
+let buffersPromise = null;
+
 // ── Load all three files ──────────────────────────────────────────────────────
 function preloadSounds() {
   console.log('[Sound] Creating AudioContext...');
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   console.log(`[Sound] AudioContext state: ${audioCtx.state}`);
 
-  Promise.all([
+  buffersPromise = Promise.all([
     loadBuffer('assets/sfx/mindmist-fishing-on-the-lake-310740.mp3'),
     loadBuffer('assets/sfx/spinopel-fishing-rod-whoosh-411640.mp3'),
     loadBuffer('assets/sfx/universfield-game-bonus-144751.mp3'),
@@ -59,17 +62,22 @@ function playBuffer(buffer, volume = 1.0, loop = false) {
 }
 
 // ── Called on Play button click ───────────────────────────────────────────────
-function initSound() {
+// Awaits buffersPromise so it works even if files are still loading.
+async function initSound() {
   if (soundReady) return;
   soundReady = true;
   console.log(`[Sound] initSound called — ctx state before resume: ${audioCtx.state}`);
+
+  // Resume must be called synchronously inside the user gesture handler
+  await audioCtx.resume();
+  console.log(`[Sound] AudioContext resumed — state: ${audioCtx.state}`);
+
+  // Now wait for any still-in-flight buffer loads
+  await buffersPromise;
   console.log(`[Sound] Buffers ready? music=${!!bufMusic} whoosh=${!!bufWhoosh} bonus=${!!bufBonus}`);
 
-  audioCtx.resume().then(() => {
-    console.log(`[Sound] AudioContext resumed — state: ${audioCtx.state}`);
-    musicSource = playBuffer(bufMusic, 0.35, true);
-    playBuffer(bufBonus, 0.7);
-  }).catch(err => console.error('[Sound] resume failed:', err));
+  musicSource = playBuffer(bufMusic, 0.35, true);
+  playBuffer(bufBonus, 0.7);
 }
 
 // ── Cast whoosh ───────────────────────────────────────────────────────────────

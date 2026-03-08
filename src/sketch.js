@@ -11,7 +11,6 @@ let escapeCount = 0;
 let waveOffset  = 0;
 let clouds      = [];
 let gameState   = 'splash';   // 'splash' | 'playing'
-let mouseClickedThisFrame = false;
 
 // ─── p5 instance ─────────────────────────────────────────────────────────────
 new p5(function (p) {
@@ -44,27 +43,28 @@ new p5(function (p) {
   // ── Main loop ──────────────────────────────────────────────────────────────
   p.draw = function () {
     if (gameState === 'splash') {
-      // Draw the game world quietly in the background
       waveOffset += 0.02;
       drawWorld(p);
-      // Overlay the splash screen; check if Play was clicked
-      const played = drawSplash(p, sheet, p.mouseX, p.mouseY, mouseClickedThisFrame);
-      if (played) {
-        gameState = 'playing';
-        initSound();   // starts bg music + plays bonus jingle on first user gesture
-      }
+      drawSplash(p, sheet, p.mouseX, p.mouseY);
     } else {
       waveOffset += 0.02;
       updateHookPhysics(p);
       drawWorld(p);
     }
-    mouseClickedThisFrame = false;
   };
 
   // ── Input ──────────────────────────────────────────────────────────────────
   p.mousePressed = function () {
-    mouseClickedThisFrame = true;
-    if (gameState === 'splash') return;  // handled in draw via drawSplash
+    if (gameState === 'splash') {
+      // Check if click landed on the Play button (same bounds as drawSplash)
+      const btnX = W / 2 - 80, btnY = 408, btnW = 160, btnH = 42;
+      if (p.mouseX > btnX && p.mouseX < btnX + btnW &&
+          p.mouseY > btnY && p.mouseY < btnY + btnH) {
+        initSound();          // MUST be called directly inside a user gesture
+        gameState = 'playing';
+      }
+      return;
+    }
     if (p.mouseX < 0 || p.mouseX > W || p.mouseY < 0 || p.mouseY > H) return;
 
     if (hook.state === 'idle') {
