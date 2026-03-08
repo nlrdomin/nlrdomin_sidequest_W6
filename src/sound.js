@@ -26,9 +26,9 @@ function preloadSounds() {
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
   Promise.all([
-    loadBuffer('downloads/mindmist-fishing-on-the-lake-310740.mp3'),
-    loadBuffer('downloadsspinopel-fishing-rod-whoosh-411640.mp3'),
-    loadBuffer('downloads/universfield-game-bonus-144751.mp3'),
+    loadBuffer('assets/sfx/mindmist-fishing-on-the-lake-310740.mp3'),
+    loadBuffer('assets/sfx/spinopel-fishing-rod-whoosh-411640.mp3'),
+    loadBuffer('assets/sfx/universfield-game-bonus-144751.mp3'),
   ]).then(([music, whoosh, bonus]) => {
     bufMusic   = music;
     bufWhoosh  = whoosh;
