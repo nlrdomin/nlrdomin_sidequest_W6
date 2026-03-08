@@ -12,7 +12,7 @@ An underwater fishing game where you cast your line from a dock and try to catch
 
 ## Interaction Instructions
 **Click anywhere on the water** to cast your line, the hook drops to that horizontal position and sinks to the seafloor
-- **Wait** for a fish to notice your hook and swim toward it — a bite is automatic when a fish gets close enough
+- **Wait** for a fish to notice your hook and swim toward it, a bite is automatic when a fish gets close enough
 - **Click to reel in** once a fish is on the line, each click with the mousepad pulls the hook upward
 - **Watch the tension bar** in the top-left, clicking too fast fills it up and snaps the line, losing the fish
 
