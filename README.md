@@ -8,8 +8,14 @@ A p5.js fishing game using the [Kenney Fish Pack](https://kenney.nl/assets/fish-
 Naomi Laureece Domingo, nlrdomin, 21064915
 
 ## Description
+An underwater fishing game where you cast your line from a dock and try to catch fish of varying rarities swimming beneath the surface. Fish are drawn toward your hook and will bite if you're patient, but reeling them in too aggressively will snap the line. The game features an animated splash screen, and eight fish types.
 
 ## Interaction Instructions
+**Click anywhere on the water** to cast your line, the hook drops to that horizontal position and sinks to the seafloor
+- **Wait** for a fish to notice your hook and swim toward it — a bite is automatic when a fish gets close enough
+- **Click to reel in** once a fish is on the line, each click with the mousepad pulls the hook upward
+- **Watch the tension bar** in the top-left, clicking too fast fills it up and snaps the line, losing the fish
+
 
 ## Asset Credits
 
