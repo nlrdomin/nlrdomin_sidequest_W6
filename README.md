@@ -28,3 +28,7 @@ Fish rod swoosh Sound Effect by <a href="https://pixabay.com/users/spinopel-4657
 Fish on the lake Sound Effect by <a href="https://pixabay.com/users/mindmist-48855701/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=310740">Mind Mist</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=310740">Pixabay</a>
 
 
+## Gen AI
+The code and comments were written by GenAI.
+
+
