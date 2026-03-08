@@ -5,14 +5,14 @@ const WATER_Y  = 130;   // y where water surface starts
 const FLOOR_Y  = H - 60; // y of the seafloor
 
 // ─── Hook physics ─────────────────────────────────────────────────────────────
-const HOOK_FALL_GRAVITY  = 0.15;  // downward acceleration while sinking
-const HOOK_REEL_ACCEL    = 0.3;   // upward acceleration per frame while reeling
-const HOOK_REEL_CLICK_VY = -4;    // instant velocity boost on each click
+const HOOK_FALL_GRAVITY  = 0.25;  // downward acceleration while sinking
+const HOOK_REEL_SPEED    = 4.5;   // constant upward speed while reeling (replaces accel model)
+const HOOK_REEL_CLICK_VY = -6;    // extra velocity burst on each click
 
 // ─── Tension ──────────────────────────────────────────────────────────────────
 const TENSION_MAX       = 100;
-const TENSION_PER_CLICK = 15;
-const TENSION_DECAY     = 0.3;   // tension lost per frame automatically
+const TENSION_PER_CLICK = 12;
+const TENSION_DECAY     = 0.5;   // tension lost per frame automatically
 
 // ─── Fish ─────────────────────────────────────────────────────────────────────
 const FISH_ATTRACT_RADIUS    = 120;  // px — fish start swimming to hook within this range

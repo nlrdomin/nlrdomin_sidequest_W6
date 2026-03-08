@@ -62,6 +62,7 @@ new p5(function (p) {
     } else if (hook.state === 'waiting') {
       // Reel in with nothing
       hook.state = 'reeling';
+      hook.vy    = -HOOK_REEL_SPEED;
       fishOnHook = null;
 
     } else if (hook.state === 'reeling') {
@@ -92,7 +93,8 @@ function updateHookPhysics(p) {
     }
 
   } else if (hook.state === 'reeling') {
-    hook.vy -= HOOK_REEL_ACCEL;
+    // Constant upward pull + any click burst bleeds off each frame
+    hook.vy  = p.min(hook.vy + 0.4, -HOOK_REEL_SPEED); // bleed click burst back to cruise speed
     hook.y  += hook.vy;
     tension  = p.max(0, tension - TENSION_DECAY);
 
@@ -129,6 +131,7 @@ function drawWorld(p) {
     (type) => {
       fishOnHook = type;
       hook.state = 'reeling';
+      hook.vy    = -HOOK_REEL_SPEED;
       tension    = 0;
       showMessage('🎣 Fish on the line!', 90);
       addCatchEffect(hook.x, hook.y, 'BITE!');
